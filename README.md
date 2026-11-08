@@ -84,13 +84,13 @@ A API fica em `http://localhost:8000/api`. Para testar, abra `http://localhost:8
 
 | Nome | RA |
 |---|---|
-| Nome do integrante 1 | 000000 |
-| Nome do integrante 2 | 000000 |
-| Nome do integrante 3 | 000000 |
+| Vitsa Sales Rocha | 221035 |
+| Emanuel Victor | 222588 |
+
 
 <div align="center">
 <br>
 <img src="docs/gifs/pincel.gif" width="64">
 <br>
-<sub>Feito com carinho (e muitas pinceladas de código) para o projeto da faculdade.</sub>
+<sub>Feito para um projeto da faculdade em WEB AVANÇADA.</sub>
 </div>
