@@ -1,0 +1,50 @@
+security:
+    # Hash de senha (bcrypt/argon2, o Symfony escolhe o melhor disponível)
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\Usuario
+                property: email
+
+    role_hierarchy:
+        ROLE_ARTISTA: ROLE_USER
+
+    firewalls:
+        dev:
+            pattern: ^/(_profiler|_wdt)/
+            security: false
+
+        # POST /api/login { "email": "...", "senha": "..." } → devolve o JWT
+        login:
+            pattern: ^/api/login$
+            stateless: true
+            json_login:
+                check_path: api_login
+                username_path: email
+                password_path: senha
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        # Todo o resto da API: lê o header "Authorization: Bearer <token>" quando ele vier
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+
+    # Regra geral: tudo é público (visitante anônimo vê feed, obras, artistas e categorias).
+    # O que precisa de login é protegido em cada controller com #[IsGranted] e Voters.
+    access_control:
+        - { path: ^/api, roles: PUBLIC_ACCESS }
+
+when@test:
+    security:
+        password_hashers:
+            # Hash rápido nos testes
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4
+                time_cost: 3
+                memory_cost: 10
